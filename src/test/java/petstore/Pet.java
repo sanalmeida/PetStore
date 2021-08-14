@@ -7,16 +7,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
 //3- classe
 public class Pet {
-    //3.1 atributos - são as características de um objeto (altura,rg,peso, nome)
+//3.1 atributos - são as características de um objeto (altura,rg,peso, nome)
     String uri = "https://petstore.swagger.io/v2/pet"; //endereço da entidade pet
 
-
-    //3.2 metodos - são ações que não retorna nenhum valor (que faz e acabou)
-    //    funções - tem uma ação e retorna um valor/resultado
-    // realiza a leitura do arquivo json e devolve conteudo
+//3.2 metodos - são ações que não retorna nenhum valor (que faz e acabou)
+//    funções - tem uma ação e retorna um valor/resultado
+// realiza a leitura do arquivo json e devolve conteudo
     public String lerJson(String caminhoJson) throws IOException {
         return new String(Files.readAllBytes(Paths.get(caminhoJson)));
     }
@@ -38,6 +38,8 @@ public class Pet {
         .then()
                 .log().all()
                 .statusCode(200)
+                .body("name",is("Snoopy"))
+                .body("status",is("available"))
         ;
     }
 }
