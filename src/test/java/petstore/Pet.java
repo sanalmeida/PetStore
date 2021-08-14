@@ -30,13 +30,13 @@ public class Pet {
         //dado - quando - então
         //Given - When - Then
 
-        given()
+    given()
                 .contentType("application/json")
                 .log().all()
                 .body(jsonBody)
-        .when()
+    .when()
                 .post(uri)
-        .then()
+    .then()
                 .log().all()
                 .statusCode(200)
                 .body("name",is("Bili"))
@@ -60,5 +60,21 @@ public class Pet {
             .body("status", is("available"))
     ;
     }
+ @Test (priority = 3)
+    public void alterarPet() throws IOException {
+        String jsonBody = lerJson("dados/pet2.json");
+    given()
+             .contentType("application/json")
+             .log().all()
+             .body(jsonBody)
+    .when()
+            .put(uri)
+    .then()
+            .log().all()
+            .statusCode(200)
+            .body("name", is("Bili"))
+            .body("status", is("adotada"))
+    ;
+ }
 }
 

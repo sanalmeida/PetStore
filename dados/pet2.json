@@ -1,0 +1,18 @@
+{
+  "id": 2407,
+  "category": {
+    "id": 1,
+    "name": "cat"
+  },
+  "name": "Bili",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 2021,
+      "name": "Adocao"
+    }
+  ],
+  "status": "adotada"
+}
