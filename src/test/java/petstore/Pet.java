@@ -12,17 +12,18 @@ import static org.hamcrest.Matchers.contains;
 
 //3- classe
 public class Pet {
-//3.1 atributos - são as características de um objeto (altura,rg,peso, nome)
+    //3.1 atributos - são as características de um objeto (altura,rg,peso, nome)
     String uri = "https://petstore.swagger.io/v2/pet"; //endereço da entidade pet
 
-//3.2 metodos - são ações que não retorna nenhum valor (que faz e acabou)
+    //3.2 metodos - são ações que não retorna nenhum valor (que faz e acabou)
 //    funções - tem uma ação e retorna um valor/resultado
 // realiza a leitura do arquivo json e devolve conteudo
     public String lerJson(String caminhoJson) throws IOException {
         return new String(Files.readAllBytes(Paths.get(caminhoJson)));
     }
+
     // incluir - create - post
-    @Test (priority = 1)// identifica o metodo ou função com teste para o testng
+    @Test(priority = 1)// identifica o metodo ou função com teste para o testng
     public void incluirPet() throws IOException {
         String jsonBody = lerJson("dados/pet1.json");
 
@@ -30,51 +31,69 @@ public class Pet {
         //dado - quando - então
         //Given - When - Then
 
-    given()
+        given()
                 .contentType("application/json")
                 .log().all()
                 .body(jsonBody)
-    .when()
+                .when()
                 .post(uri)
-    .then()
+                .then()
                 .log().all()
                 .statusCode(200)
-                .body("name",is("Bili"))
-                .body("status",is("available"))
-                .body("category.name",is("cat"))
+                .body("name", is("Bili"))
+                .body("status", is("available"))
+                .body("category.name", is("cat"))
         ;
     }
-@Test (priority = 2)
-    public void consultarPet(){
+
+    @Test(priority = 2)
+    public void consultarPet() {
         String petId = "2407";
-    given()
-             .contentType("application/json")
-             .log().all()
-    .when()
-            .get(uri + "/" + petId)
-    .then()
-            .log().all()
-            .statusCode(200)
-            .body("name", is("Bili"))
-            .body("category.name", is("cat"))
-            .body("status", is("available"))
-    ;
+        given()
+                .contentType("application/json")
+                .log().all()
+                .when()
+                .get(uri + "/" + petId)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Bili"))
+                .body("category.name", is("cat"))
+                .body("status", is("available"))
+        ;
     }
- @Test (priority = 3)
+
+    @Test(priority = 3)
     public void alterarPet() throws IOException {
         String jsonBody = lerJson("dados/pet2.json");
-    given()
-             .contentType("application/json")
-             .log().all()
-             .body(jsonBody)
-    .when()
-            .put(uri)
-    .then()
-            .log().all()
-            .statusCode(200)
-            .body("name", is("Bili"))
-            .body("status", is("adotada"))
-    ;
- }
-}
+        given()
+                .contentType("application/json")
+                .log().all()
+                .body(jsonBody)
+                .when()
+                .put(uri)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Bili"))
+                .body("status", is("adotada"))
+        ;
+    }
 
+@Test(priority = 4)
+    public void excluirPet() throws IOException {
+        String petId = "2407";
+        given()
+                .contentType("application/json")
+                .log().all()
+                .when()
+                .delete(uri + "/" + petId)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("code", is(200))
+                .body("type", is("unknown"))
+                .body("message", is(petId))
+    ;
+    }
+}
